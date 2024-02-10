@@ -14,8 +14,8 @@ Coastal zone ecosystems play a vital role in maintaining marine environmental st
 - python 3.8.18
 - torch 1.13.0
 - torchvision 0.14.0
-- cikit-image 0.18.3
-- 
+- scikit-image 0.18.3
+  
 ### Datasets
 - OUC-Water
 - LSUI
