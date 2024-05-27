@@ -1,4 +1,4 @@
-# A Physics-based Attention CycleGAN for UAV Coastal Zone Unpaired Images Water Removal
+# DewaterGAN: An Unsupervised Image Water Removal for UAV in Coastal Zone
 
 
 ### Update
