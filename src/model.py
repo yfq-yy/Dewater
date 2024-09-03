@@ -122,9 +122,9 @@ class DerainCycleGAN(nn.Module):
     '''self.fake_A_encoded -> self.real_A_recon'''
     '''self.fake_B_encoded -> self.real_B_recon'''    
     self.mask_b2 = self.pba(self.fake_B_encoded)
-    self.frame1_b2, self.frame2_b2, self.real_B_recon = self.genA.forward(self.fake_B_encoded, self.mask_b2[5])  
+    self.frame1_b2, self.frame2_b2, self.real_B_recon = self.genA.forward(self.fake_B_encoded, self.mask_b2)  
     self.mask_a2 = self.pba(self.fake_A_encoded)
-    self.frame1_a2, self.frame2_a2, self.real_A_recon = self.genB.forward(self.fake_A_encoded, self.mask_a2[5]) 
+    self.frame1_a2, self.frame2_a2, self.real_A_recon = self.genB.forward(self.fake_A_encoded, self.mask_a2) 
 
     self.image_display = torch.cat((self.real_A_encoded[0:1].detach().cpu(), self.fake_A_encoded[0:1].detach().cpu(), \
                                     self.real_A_recon[0:1].detach().cpu(), \
@@ -192,11 +192,11 @@ class DerainCycleGAN(nn.Module):
     loss_perceptual = self.criterionL2(self.perc_fake_A, self.perc_real_A) * 0.01
 
     #atten loss
-    cha1, row1, col1 = self.mask_a[3].shape[1], self.mask_a.shape[2], self.mask_a.shape[3]
+    cha1, row1, col1 = self.mask_a.shape[1], self.mask_a.shape[2], self.mask_a.shape[3]
     mask_a_gt = torch.rand(opts.batch_size, cha1, row1, col1).cuda() 
     loss_att_a = self.criterionL2(self.mask_a, mask_a_gt) * 10
 
-    cha2, row2, col2 = self.mask_b.shape[1], self.mask_b[3].shape[2], self.mask_b[3].shape[3]
+    cha2, row2, col2 = self.mask_b.shape[1], self.mask_b.shape[2], self.mask_b.shape[3]
     mask_b_gt = torch.zeros(opts.batch_size, cha2, row2, col2).cuda() 
     loss_att_b = self.criterionL2(self.mask_b, mask_b_gt) * 10
 

@@ -94,8 +94,7 @@ class up(nn.Module):
         x1 = self.up(x1)
         diffX = x1.size()[2] - x2.size()[2]
         diffY = x1.size()[3] - x2.size()[3]
-        x2 = F.pad(x2, (diffX // 2, int(diffX / 2),
-                        diffY // 2, int(diffY / 2)))
+        x2 = F.pad(x2, (diffY // 2, int(diffY / 2), diffX // 2, int(diffX / 2)))
         x = torch.cat([x2, x1], dim=1)
         x = self.conv(x)
         return x
@@ -360,7 +359,8 @@ class PBA(nn.Module):
         self.eps_list = [0.001, 0.0001]
         self.gf = None
         self.atmnet = Atmnet()
-        self.transnet = TransUNet()
+        self.transnet1 = TransUNet()
+        self.transnet2 = TransUNet()
         self.rainnet = RainNet()
         
        
@@ -373,15 +373,17 @@ class PBA(nn.Module):
         lf, hf = self.decomposition(input)
         A = self.atmnet(torch.cat([input, lf], dim=1))
         atm = A.repeat(1, 1, row, col)
-        trans = self.transnet(torch.cat([input, lf], dim=1))
+        trans1 = self.transnet1(torch.cat([input, lf], dim=1))
+        trans2 = self.transnet2(torch.cat([input, lf], dim=1))
         streak = self.rainnet(torch.cat([input, hf], dim=1))
         #streak = streak.repeat(1, 3, 1, 1)
         #input = torch.cat((input, mask), 1) 
         #input = torch.cat((input, hf), 1)
         #yfq
         size = mask.size()[2:][0],mask.size()[2:][1]
-        trans = F.interpolate(trans,size)
-        mask = trans * streak + (1-trans) * atm
+        trans1 = F.interpolate(trans1,size)
+        trans2 = F.interpolate(trans2,size)
+        mask = trans1 * trans2 * streak + (1-trans1*trans2) * atm
     
         return mask
    
@@ -506,11 +508,20 @@ class Gen(nn.Module):
         x = self.conv8(x)
         frame1 = self.outframe1(x)
         x = self.deconv1(x)
-
+  
+        
+        diffX = x.size()[2] - res2.size()[2]
+        diffY = x.size()[3] - res2.size()[3]
+        res2 = F.pad(res2, (diffY // 2, diffY- diffY // 2, diffX // 2, diffX- diffX // 2))
+      
         x = x + res2
         x = self.conv9(x)
         frame2 = self.outframe2(x)
         x = self.deconv2(x)
+
+        diffX = x.size()[2] - res1.size()[2]
+        diffY = x.size()[3] - res1.size()[3]
+        res1 = F.pad(res1, (diffY // 2, diffY- diffY // 2, diffX // 2, diffX- diffX // 2))
         x = x + res1
         x = self.conv10(x)
         x = self.output(x)
