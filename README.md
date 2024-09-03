@@ -69,6 +69,6 @@ cd /utils
 change path of derain/reference images
 python testpsnrssim.py
 ```
-![image](https://github.com/yfq-yy/Dewater/blob/master/figures/waterimage.png)
+![image](https://github.com/yfq-yy/Dewater/blob/master/figures/waterimage1.png)
 ### Contact
 Thanks for your attention. If you have any questions, please contact my email: yaofengqin8312@stu.ouc.edu.cn. 
