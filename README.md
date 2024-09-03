@@ -28,7 +28,7 @@ You can download above datasets from [here](XXX)
 ### Pre-trained Models
 You can download pre-trained models from [here](XXX) and put them into corresponding folders, then the content is just like:
 
-"./results/OUCWater/net_best_00299.pth"
+"./results/UAVWater/net_best_00299.pth"
 
 "./results/Rain100L/net_best_00300.pth"
 
@@ -38,30 +38,30 @@ Note: **vgg16.weight** is for the parameters of Vgg16.
 
 ### Usage
 #### Prepare dataset:
-Taking training Rain100L as example. Download OUC-Water and Rain100L (including training set and testing set) and put them into the folder "./datasets", then the content is just like:
+Taking training Rain100L as example. Download UAV-Water and Rain100L (including training set and testing set) and put them into the folder "./datasets", then the content is just like:
 
-"./datasets/OUCwater_train/trainA/rain-***.png"
+"./datasets/UAVwater_train/trainA/rain-***.png"
 
-"./datasets/OUCwater_test/trainB/norain-***.png"
+"./datasets/UAVwater_test/trainB/norain-***.png"
 
 "./datasets/rain100L_train/trainA/rain-***.png"
 
 "./datasets/rain100L_test/trainB/norain-***.png"
-#### Train (Take OUC-Water dataset as example):
+#### Train (Take UAV-Water dataset as example):
 ```
-CUDA_VISIBLE_DEVICES=0,1,2,3 python3 train.py --train_path ../datasets/OUCwater_train --val_path ../datasets/OUCwater_test --name OUCWater
+CUDA_VISIBLE_DEVICES=0,1,2,3 python3 train.py --train_path ../datasets/UAVwater_train --val_path ../datasets/UAVwater_test --name UAVWater
 ```
-#### Resume Train (Take OUC-Water dataset as example):
+#### Resume Train (Take UAV-Water dataset as example):
 ```
-CUDA_VISIBLE_DEVICES=0,1,2,3 python3 train.py --train_path ../datasets/OUCwater_train --val_path ../datasets/OUCwater_test --name OUCWater --resume ../results/OUCWater/net_best_00299.pth
+CUDA_VISIBLE_DEVICES=0,1,2,3 python3 train.py --train_path ../datasets/UAVwater_train --val_path ../datasets/UAVwater_test --name UAVWater --resume ../results/UAVWater/net_best_00299.pth
 ```
-#### Test (Take OUC-Water dataset as example):
+#### Test (Take UAV-Water dataset as example):
 ```
-CUDA_VISIBLE_DEVICES=0 python3 test.py --test_path ../datasets --name OUCWater --resume ../results/OUCWater/net_best_00299.pth --mode 1
+CUDA_VISIBLE_DEVICES=0 python3 test.py --test_path ../datasets --name UAVWater --resume ../results/UAVWater/net_best_00299.pth --mode 1
 ```
-#### val (Take OUC-Water dataset as example):
+#### val (Take UAV-Water dataset as example):
 ```
-CUDA_VISIBLE_DEVICES=0 python3 val.py --val_path ../datasets/OUCwater_test --name OUCWater --resume ../results/OUCWater/net_best_00299.pth
+CUDA_VISIBLE_DEVICES=0 python3 val.py --val_path ../datasets/UAVwater_test --name UAVWater --resume ../results/UAVWater/net_best_00299.pth
 ```
 #### valpair (Take Rain100L dataset as example):
 ```
